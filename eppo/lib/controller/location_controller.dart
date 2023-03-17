@@ -37,8 +37,3 @@ class LocationController extends StateNotifier<AsyncValue<Position>> {
 final locationControllerProvider =
     StateNotifierProvider<LocationController, AsyncValue<Position>>(
         (ref) => LocationController());
-
-final currentUserAccountProvider = FutureProvider((ref) {
-  final authController = ref.watch(locationControllerProvider.notifier);
-  return authController._getLocation();
-});
