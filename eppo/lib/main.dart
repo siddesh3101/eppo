@@ -1,10 +1,13 @@
 import 'dart:io';
 
+import 'package:eppo/pages/prof_page.dart';
 import 'package:eppo/screens/home_screen.dart';
 import 'package:eppo/screens/landing_page.dart';
 import 'package:eppo/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'pages/main_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,7 +32,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.theme,
-      home: LandingPage(),
+      home: const ProfPage(),
     );
   }
 }
