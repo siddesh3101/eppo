@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:eppo/pages/prof_page.dart';
+import 'package:eppo/router/route.dart';
+import 'package:eppo/screens/create_business.dart';
 import 'package:eppo/screens/home_screen.dart';
 import 'package:eppo/screens/landing_page.dart';
 import 'package:eppo/theme/theme.dart';
@@ -37,7 +39,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.theme,
-      home: MainPage(),
+      initialRoute: '/',
+      routes: routes,
     );
   }
 }
