@@ -32,7 +32,9 @@ class _MainPageState extends State<MainPage> {
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
         children: [
-          const HomePage(),
+          HomeTab(
+            onPressedScheduleCard: () {},
+          ),
           Container(
             child: const Center(
               child: Text('Search'),
