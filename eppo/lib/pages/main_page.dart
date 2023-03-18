@@ -1,5 +1,6 @@
 import 'package:eppo/constants/colors.dart';
 import 'package:eppo/pages/home_page.dart';
+import 'package:eppo/pages/schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -40,11 +41,7 @@ class _MainPageState extends State<MainPage> {
               child: Text('Search'),
             ),
           ),
-          Container(
-            child: const Center(
-              child: Text('Booking'),
-            ),
-          ),
+          ScheduleTab(),
           Container(
             child: const Center(
               child: Text('Profile'),
