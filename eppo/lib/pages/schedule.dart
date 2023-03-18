@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/colors.dart';
+import '../theme/style.dart';
 
 class ScheduleTab extends StatefulWidget {
   const ScheduleTab({Key? key}) : super(key: key);
@@ -120,7 +121,7 @@ class _ScheduleTabState extends State<ScheduleTab> {
                             child: Center(
                               child: Text(
                                 filterStatus.name,
-                                // style: kFilterStyle,
+                                style: kFilterStyle,
                               ),
                             ),
                           ),
@@ -212,12 +213,23 @@ class _ScheduleTabState extends State<ScheduleTab> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Expanded(
-                                child: OutlinedButton(
-                                  child: Text('Cancel'),
-                                  onPressed: () {},
+                              if (status == FilterStatus.Upcoming ||
+                                  status == FilterStatus.Cancel)
+                                Expanded(
+                                  child: OutlinedButton(
+                                    child: Text('Cancel'),
+                                    onPressed: () {},
+                                  ),
                                 ),
-                              ),
+                              if (status == FilterStatus.Complete)
+                                Expanded(
+                                  child: OutlinedButton(
+                                    child: Text('Review'),
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, '/review');
+                                    },
+                                  ),
+                                ),
                               SizedBox(
                                 width: 20,
                               ),

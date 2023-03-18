@@ -1,29 +1,33 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:eppo/pages/sliver_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
+import '../screens/review_screen.dart';
 import '../theme/colors.dart';
+import '../theme/style.dart';
 
 List<Map> doctors = [
   {
-    'img': 'assets/saloon.png',
+    'img': 'assets/salooon.jpg',
     'doctorName': 'Stylo Saloon',
     'doctorTitle': 'Saloon'
   },
-  {
-    'img': 'assets/doctor03.jpeg',
-    'doctorName': 'Dr. Rosa Williamson',
-    'doctorTitle': 'Skin Specialist'
-  },
-  {
-    'img': 'assets/doctor02.png',
-    'doctorName': 'Dr. Gardner Pearson',
-    'doctorTitle': 'Heart Specialist'
-  },
-  {
-    'img': 'assets/doctor03.jpeg',
-    'doctorName': 'Dr. Rosa Williamson',
-    'doctorTitle': 'Skin Specialist'
-  }
+  // {
+  //   'img': 'assets/doctor03.jpeg',
+  //   'doctorName': 'Dr. Rosa Williamson',
+  //   'doctorTitle': 'Skin Specialist'
+  // },
+  // {
+  //   'img': 'assets/doctor02.png',
+  //   'doctorName': 'Dr. Gardner Pearson',
+  //   'doctorTitle': 'Heart Specialist'
+  // },
+  // {
+  //   'img': 'assets/doctor03.jpeg',
+  //   'doctorName': 'Dr. Rosa Williamson',
+  //   'doctorTitle': 'Skin Specialist'
+  // }
 ];
 
 class HomeTab extends StatelessWidget {
@@ -60,7 +64,6 @@ class HomeTab extends StatelessWidget {
                     height: 200,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                        color: Colors.blue,
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
                             fit: BoxFit.cover,
@@ -96,17 +99,44 @@ class HomeTab extends StatelessWidget {
                       ),
                     )),
                 Container(
-                  height: 200,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: Text('Item 2',
-                        style: TextStyle(fontSize: 24, color: Colors.white)),
-                  ),
-                ),
+                    alignment: Alignment.bottomLeft,
+                    height: 200,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                                "https://content.jdmagicbox.com/comp/mumbai/t7/022pxx22.xx22.160728204731.u3t7/catalogue/santosh-kumar-singh-fort-mumbai-lawyers-2iht6bd.jpg?clr="))),
+                    child: Container(
+                      width: double.infinity,
+                      height: 90,
+                      decoration: BoxDecoration(boxShadow: [
+                        BoxShadow(
+                            blurRadius: 10.0,
+                            color: Colors.black.withOpacity(0.4))
+                      ]),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "RK Lawyer",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Text(
+                              "Borivali Maharashtra",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Text(
+                              "Slots open between 1-2 pm from Mon-Fri",
+                              style: TextStyle(color: Colors.white),
+                            )
+                          ],
+                        ),
+                      ),
+                    )),
               ],
               options: CarouselOptions(
                 autoPlay: true,
@@ -130,7 +160,7 @@ class HomeTab extends StatelessWidget {
               children: [
                 Text(
                   'Appointment Today',
-                  // style: kTitleStyle,
+                  style: kTitleStyle,
                 ),
                 TextButton(
                   child: Text(
@@ -168,6 +198,15 @@ class HomeTab extends StatelessWidget {
                 img: doctor['img'],
                 doctorName: doctor['doctorName'],
                 doctorTitle: doctor['doctorTitle'],
+                ontap: () {
+                  Navigator.push(
+                    context,
+                    PageTransition(
+                      child: SliverDoctorDetail(details: doctor),
+                      type: PageTransitionType.fade,
+                    ),
+                  );
+                },
               )
           ],
         ),
@@ -180,21 +219,20 @@ class TopDoctorCard extends StatelessWidget {
   String img;
   String doctorName;
   String doctorTitle;
+  VoidCallback ontap;
 
-  TopDoctorCard({
-    required this.img,
-    required this.doctorName,
-    required this.doctorTitle,
-  });
+  TopDoctorCard(
+      {required this.img,
+      required this.doctorName,
+      required this.doctorTitle,
+      required this.ontap});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.only(bottom: 20),
       child: InkWell(
-        onTap: () {
-          Navigator.pushNamed(context, '/detail');
-        },
+        onTap: ontap,
         child: Row(
           children: [
             Container(
@@ -349,10 +387,10 @@ class AppointmentCard extends StatelessWidget {
 }
 
 List<Map> categories = [
-  {'icon': Icons.coronavirus, 'text': 'Covid 19'},
-  {'icon': Icons.local_hospital, 'text': 'Hospital'},
-  {'icon': Icons.car_rental, 'text': 'Ambulance'},
-  {'icon': Icons.local_pharmacy, 'text': 'Pill'},
+  {'icon': "assets/doctor.png", 'text': 'Doctor'},
+  {'icon': "assets/haircut.png", 'text': 'Salon'},
+  {'icon': "assets/justice.png", 'text': 'Lawyer'},
+  {'icon': "assets/communication.png", 'text': 'Counselor'},
 ];
 
 class CategoryIcons extends StatelessWidget {
@@ -367,7 +405,7 @@ class CategoryIcons extends StatelessWidget {
       children: [
         for (var category in categories)
           CategoryIcon(
-            icon: category['icon'],
+            image: category['icon'],
             text: category['text'],
           ),
       ],
@@ -428,11 +466,11 @@ class ScheduleCard extends StatelessWidget {
 }
 
 class CategoryIcon extends StatelessWidget {
-  IconData icon;
+  String image;
   String text;
 
   CategoryIcon({
-    required this.icon,
+    required this.image,
     required this.text,
   });
 
@@ -446,14 +484,14 @@ class CategoryIcon extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              width: 50,
-              height: 50,
+              width: 40,
+              height: 40,
               decoration: BoxDecoration(
                 color: Color(MyColors.bg),
                 borderRadius: BorderRadius.circular(50),
               ),
-              child: Icon(
-                icon,
+              child: Image.asset(
+                image,
                 color: Color(MyColors.primary),
               ),
             ),
