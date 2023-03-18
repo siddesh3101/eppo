@@ -1,5 +1,6 @@
 import 'package:eppo/constants/colors.dart';
 import 'package:eppo/pages/home_page.dart';
+import 'package:eppo/pages/prof_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -32,10 +33,8 @@ class _ProfPageState extends State<ProfPage> {
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
         children: [
-          Container(
-            child: const Center(
-              child: Text('Home'),
-            ),
+          ProfTab(
+            onPressedScheduleCard: () {},
           ),
           Container(
             child: const Center(

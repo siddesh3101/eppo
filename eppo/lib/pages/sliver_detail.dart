@@ -99,7 +99,7 @@ class DetailBody extends StatelessWidget {
               ),
             ),
             child: Text('Book Appointment'),
-            onPressed: () => {},
+            onPressed: () => {Navigator.of(context).pushNamed('/book')},
           )
         ],
       ),

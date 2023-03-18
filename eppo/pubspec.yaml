@@ -2,7 +2,7 @@ name: eppo
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.19.3 <3.0.0'
+  sdk: ">=2.19.3 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -30,7 +30,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -52,10 +51,17 @@ dependencies:
   flutter_google_places_hoc081098: ^1.2.0
   google_maps_flutter_web: ^0.4.0+5
   geolocator: ^9.0.2
+  booking_calendar: ^1.1.9
+  flutter_calendar_week: ^3.0.0
+  calendar_timeline: ^1.1.2
   file_picker: ^5.2.6
   camera: ^0.10.3+2
   location: ^4.4.0
   image_picker: ^0.8.7
+  maps_launcher: ^2.2.0
+  custom_sliding_segmented_control: ^1.7.4
+  flutter_advanced_segment: ^3.0.1
+  tap_to_expand: ^0.6.1
 
 dev_dependencies:
   flutter_test:
@@ -73,7 +79,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
