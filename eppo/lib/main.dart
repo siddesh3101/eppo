@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.theme,
-      initialRoute: '/professional',
+      initialRoute: '/chat',
       routes: routes,
     );
   }

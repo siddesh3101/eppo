@@ -1,3 +1,4 @@
+import 'package:eppo/pages/chat_page.dart';
 import 'package:eppo/pages/main_page.dart';
 import 'package:flutter/material.dart';
 
@@ -11,4 +12,5 @@ Map<String, Widget Function(BuildContext)> routes = {
   '/detail': (context) => const SliverDoctorDetail(),
   '/book': (context) => const BookSlotPage(),
   '/professional': (context) => const ProfPage(),
+  '/chat': (context) => const ChatPage(userId: 'siddesh', otherId: 'sachin'),
 };
