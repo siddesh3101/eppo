@@ -78,11 +78,11 @@ class _ScheduleTabState extends State<ScheduleTab> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              'Schedule',
-              textAlign: TextAlign.center,
-              // style: kTitleStyle,
-            ),
+            // Text(
+            //   'Schedule',
+            //   textAlign: TextAlign.center,
+            //   // style: kTitleStyle,
+            // ),
             SizedBox(
               height: 20,
             ),

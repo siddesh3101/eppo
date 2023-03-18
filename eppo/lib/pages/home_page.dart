@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import '../theme/colors.dart';
@@ -49,6 +50,74 @@ class HomeTab extends StatelessWidget {
               height: 10,
             ),
             SearchInput(),
+            SizedBox(
+              height: 20,
+            ),
+            CarouselSlider(
+              items: [
+                Container(
+                    alignment: Alignment.bottomLeft,
+                    height: 200,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                                "https://content.jdmagicbox.com/comp/mumbai/t4/022pxx22.xx22.110613193004.k2t4/catalogue/lakme-salon-shivaji-park-dadar-west-mumbai-salons-04QFWyLWYJosuDy.jpg?clr=006600"))),
+                    child: Container(
+                      height: 70,
+                      width: double.infinity,
+                      decoration: BoxDecoration(boxShadow: [
+                        BoxShadow(
+                            blurRadius: 10.0,
+                            color: Colors.black.withOpacity(0.4))
+                      ]),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Lakme Saloon",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Text(
+                              "Mumbai Maharashtra",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Text(
+                              "Appointment booking opening soon",
+                              style: TextStyle(color: Colors.white),
+                            )
+                          ],
+                        ),
+                      ),
+                    )),
+                Container(
+                  height: 200,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: Text('Item 2',
+                        style: TextStyle(fontSize: 24, color: Colors.white)),
+                  ),
+                ),
+              ],
+              options: CarouselOptions(
+                autoPlay: true,
+                aspectRatio: 16 / 9,
+                enlargeCenterPage: true,
+                enableInfiniteScroll: true,
+                autoPlayCurve: Curves.fastOutSlowIn,
+                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                viewportFraction: 0.8,
+              ),
+            ),
             SizedBox(
               height: 20,
             ),

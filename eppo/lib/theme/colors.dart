@@ -1,6 +1,6 @@
 class MyColors {
   static int header01 = 0xff151a56;
-  static int primary = 0xff575de3;
+  static int primary = 0xFF007AFF;
   static int purple01 = 0xff918fa5;
   static int purple02 = 0xff6b6e97;
   static int yellow01 = 0xffeaa63b;
