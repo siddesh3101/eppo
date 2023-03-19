@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:eppo/constants/colors.dart';
 import 'package:eppo/pages/home_page.dart';
+import 'package:eppo/pages/on_appointment.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:eppo/pages/profile_screen.dart';
 import 'package:eppo/pages/schedule.dart';
@@ -110,6 +111,7 @@ class _MainPageState extends State<MainPage> {
   sendPushToken() async {
     final token = await FirebaseMessaging.instance.getToken();
     if (token != null) {
+      print(token);
       await ApiService().sendFcmToken(token, '64157b99303ac48fb69cd12e');
     } else
       print('token is null');
@@ -133,7 +135,10 @@ class _MainPageState extends State<MainPage> {
         physics: const NeverScrollableScrollPhysics(),
         children: [
           HomeTab(
-            onPressedScheduleCard: () {},
+            onPressedScheduleCard: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => OnAppointment()));
+            },
             user: allDoctors,
           ),
           Container(

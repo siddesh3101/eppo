@@ -226,7 +226,7 @@ class _ScheduleTabState extends State<ScheduleTab> {
                                   child: OutlinedButton(
                                     child: Text('Review'),
                                     onPressed: () {
-                                      Navigator.pushNamed(context, '/review');
+                                      // Navigator.pushNamed(context, '/review');
                                     },
                                   ),
                                 ),

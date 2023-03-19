@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:eppo/services/api_service.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,7 @@ class _PeopleWalkingOnLineState extends State<PeopleWalkingOnLine> {
       if (percentage1 >= 100) {
         percentage1 = 0;
         percentage2 = newPercentage2;
-        _timer = Timer.periodic(Duration(milliseconds: 50), (timer) {
+        _timer = Timer.periodic(Duration(milliseconds: 200), (timer) {
           setState(() {
             percentage3 += 1;
             if (percentage3 >= 100) {
@@ -129,7 +130,7 @@ class _PeopleWalkingOnLineState extends State<PeopleWalkingOnLine> {
                                 style: TextStyle(fontSize: 10),
                               ),
                               Text(
-                                "${estimatedTime}",
+                                waitingTime,
                                 style: TextStyle(
                                     fontSize: 10, fontWeight: FontWeight.bold),
                               )
@@ -147,7 +148,7 @@ class _PeopleWalkingOnLineState extends State<PeopleWalkingOnLine> {
                                 textAlign: TextAlign.end,
                               ),
                               Text(
-                                waitingTime!,
+                                "${estimatedTime} mins",
                                 style: TextStyle(
                                     fontSize: 10, fontWeight: FontWeight.bold),
                               )

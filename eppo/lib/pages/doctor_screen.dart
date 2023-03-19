@@ -193,6 +193,120 @@ class _DoctorScreenState extends State<DoctorScreen> {
                     );
                   },
                 ),
+
+                //           ListView.builder(
+                //
+                //   itemBuilder: (BuildContext context, int index) {
+                //
+                //     return ListTile(
+                //       leading: CircleAvatar(
+                //         backgroundImage: AssetImage(doctor.image),
+                //       ),
+                //       title: Text(doctor.name),
+                //       subtitle: Text('${doctor.speciality}, ${doctor.location}'),
+                //       trailing: Text('${doctor.rating}'),
+                //     );
+                //   },
+                // ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Doctors Near You',
+                    style: kTitleStyle,
+                  ),
+                  TextButton(
+                    child: Text(
+                      'See All',
+                      style: TextStyle(
+                        color: Color(MyColors.yellow01),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onPressed: () {},
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 200,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _filteredDoctors.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    final doctor = _filteredDoctors[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => SliverDoctorDetail(
+                              decide: false,
+                              doc: doctor,
+                            ),
+                          ));
+                        },
+                        child: Container(
+                          width: 200,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Stack(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(doctor.name),
+                                    Text(doctor.speciality),
+                                    Row(
+                                      children: [
+                                        for (int i = 0; i < 5; i++)
+                                          Icon(
+                                            Icons.star,
+                                            color: Colors.yellow,
+                                            size: 12,
+                                          ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text("Experience"),
+                                    Text("8 Years"),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text("Patients"),
+                                    Text("1.02K"),
+                                  ],
+                                ),
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: Container(
+                                  width: 150,
+                                  height: 150,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        bottomRight: Radius.circular(10)),
+                                  ),
+                                  child: Image.asset(doctor.image),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+
                 //           ListView.builder(
                 //
                 //   itemBuilder: (BuildContext context, int index) {

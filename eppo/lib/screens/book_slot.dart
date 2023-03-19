@@ -284,7 +284,7 @@ class _BookSlotPageState extends State<BookSlotPage> {
                           Razorpay _razorPay = Razorpay();
                           var options = {
                             'key': 'rzp_test_NTCtiBhSzJJA1c',
-                            'amount': res.amount,
+                            'amount': res.amount * 100,
                             'name': 'TimeTap Ltd.',
                             'description': 'Appointment Booking',
                             'retry': {'enabled': true, 'max_count': 1},
