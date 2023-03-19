@@ -1,5 +1,6 @@
 import 'package:eppo/constants/colors.dart';
 import 'package:eppo/pages/home_page.dart';
+import 'package:eppo/pages/profile_screen.dart';
 import 'package:eppo/pages/schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -42,11 +43,7 @@ class _MainPageState extends State<MainPage> {
             ),
           ),
           ScheduleTab(),
-          Container(
-            child: const Center(
-              child: Text('Profile'),
-            ),
-          ),
+          ProfileScreen()
         ],
         onPageChanged: (idx) {
           setState(() {

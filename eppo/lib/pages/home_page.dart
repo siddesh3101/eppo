@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:eppo/pages/doctor_screen.dart';
 import 'package:eppo/pages/sliver_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -53,7 +54,7 @@ class HomeTab extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            SearchInput(),
+            SearchInput(hint: "Search for a service"),
             SizedBox(
               height: 20,
             ),
@@ -478,7 +479,11 @@ class CategoryIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       splashColor: Color(MyColors.bg01),
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => DoctorScreen(),
+        ));
+      },
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Column(
@@ -516,7 +521,9 @@ class CategoryIcon extends StatelessWidget {
 class SearchInput extends StatelessWidget {
   const SearchInput({
     Key? key,
+    required this.hint,
   }) : super(key: key);
+  final String hint;
 
   @override
   Widget build(BuildContext context) {
@@ -544,7 +551,7 @@ class SearchInput extends StatelessWidget {
             child: TextField(
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: 'Search for a service',
+                hintText: hint,
                 hintStyle: TextStyle(
                     fontSize: 13,
                     color: Color(MyColors.purple01),
