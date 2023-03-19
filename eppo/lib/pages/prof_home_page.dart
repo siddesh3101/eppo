@@ -1,9 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
+import 'package:eppo/pages/chat_page.dart';
 import 'package:eppo/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_segment/flutter_advanced_segment.dart';
 import 'package:tap_to_expand/tap_to_expand.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../theme/colors.dart';
 
@@ -283,6 +285,32 @@ class AppointmentCardProfessional extends StatelessWidget {
                       ],
                     ),
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ChatPage(
+                                userId: '6415da02cc26535ffc32da5c',
+                                otherId: '64157b99303ac48fb69cd12e',
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text('Chat'),
+                      ),
+                      ElevatedButton(
+                        onPressed: _launchUrl,
+                        child: Text('Video Call'),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
@@ -290,6 +318,12 @@ class AppointmentCardProfessional extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(Uri.parse("https://virtual-appointment.glitch.me"))) {
+      throw Exception('Could not launch url');
+    }
   }
 }
 

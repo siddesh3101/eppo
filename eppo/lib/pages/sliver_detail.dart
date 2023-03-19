@@ -1,5 +1,6 @@
 import 'package:eppo/pages/dr_screen.dart';
 import 'package:eppo/pages/person.dart';
+import 'package:eppo/screens/book_slot.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -109,7 +110,11 @@ class DetailBody extends StatelessWidget {
               ),
             ),
             child: Text('Book Appointment'),
-            onPressed: () => {Navigator.of(context).pushNamed('/book')},
+            onPressed: () => {
+              Navigator.of(context).pushNamed('/book',
+                  arguments:
+                      BookArguments(doc?.id ?? '64157b99303ac48fb69cd12e')),
+            },
           )
         ],
       ),

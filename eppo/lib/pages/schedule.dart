@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../screens/book_slot.dart';
 import '../theme/colors.dart';
 import '../theme/style.dart';
 
@@ -236,7 +237,11 @@ class _ScheduleTabState extends State<ScheduleTab> {
                               Expanded(
                                 child: ElevatedButton(
                                   child: Text('Reschedule'),
-                                  onPressed: () => {},
+                                  onPressed: () => {
+                                    Navigator.of(context).pushNamed('/book',
+                                        arguments: BookArguments(
+                                            '64157b99303ac48fb69cd12e'))
+                                  },
                                 ),
                               )
                             ],

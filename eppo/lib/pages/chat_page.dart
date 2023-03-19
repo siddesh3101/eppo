@@ -17,18 +17,17 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  late Future<ChatRoom> _future;
-  late ApiService _chatRoomService;
+  Future<ChatRoom> _future = Future(() => ChatRoom(messages: []));
+  ApiService _chatRoomService = ApiService();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _chatRoomService = ApiService();
     setUpTimedFetch();
   }
 
   setUpTimedFetch() {
-    Timer.periodic(Duration(milliseconds: 5000), (timer) {
+    Timer.periodic(Duration(milliseconds: 1000), (timer) {
       setState(() {
         _future =
             _chatRoomService.getChatMessages(widget.userId, widget.otherId);
@@ -47,7 +46,7 @@ class _ChatPageState extends State<ChatPage> {
       ),
       body: FutureBuilder<ChatRoom>(
         future: _future,
-        initialData: null,
+        initialData: ChatRoom(messages: []),
         builder: (context, snapshot) => snapshot.hasData
             ? Column(
                 children: [

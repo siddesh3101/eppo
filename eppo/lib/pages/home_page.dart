@@ -207,6 +207,7 @@ class HomeTab extends StatelessWidget {
                 img: doctor['img'],
                 doctorName: doctor['doctorName'],
                 doctorTitle: doctor['doctorTitle'],
+                id: doctor['id'],
                 ontap: () {
                   Navigator.push(
                     context,
@@ -227,6 +228,7 @@ class HomeTab extends StatelessWidget {
 class TopDoctorCard extends StatelessWidget {
   String img;
   String doctorName;
+  String id;
   String doctorTitle;
   VoidCallback ontap;
 
@@ -234,6 +236,7 @@ class TopDoctorCard extends StatelessWidget {
       {required this.img,
       required this.doctorName,
       required this.doctorTitle,
+      required this.id,
       required this.ontap});
 
   @override

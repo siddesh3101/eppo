@@ -11,11 +11,17 @@ import 'package:intl/intl.dart';
 
 import '../theme/style.dart';
 
+class BookArguments {
+  final String id;
+
+  BookArguments(this.id);
+}
+
 class BookSlotPage extends StatefulWidget {
   BookSlotPage({super.key});
   String token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MTU3Yjk5MzAzYWM0OGZiNjljZDEyZSIsImlhdCI6MTY3OTE3NjYzMiwiZXhwIjoxNjc5MjYzMDMyfQ._PwHChUhLHZzUWEfTPQ-ovut0p44W7J0OqGcTM8GX34";
-  String otherId = "64157b99303ac48fb69cd12e";
+  String otherId = "";
 
   @override
   State<BookSlotPage> createState() => _BookSlotPageState();
@@ -49,13 +55,14 @@ class _BookSlotPageState extends State<BookSlotPage> {
   String _selectedOption = 'Mins';
   List<String> _options = ['Mins', 'Hours'];
   late Future<GetSlotResponse> _future;
+  DateTime _selectedDate = DateTime.now();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _apiService = ApiService();
-    fetchSlotsByDate(DateTime.now());
+    // fetchSlotsByDate(DateTime.now());
   }
 
   Widget notifyMe() {
@@ -146,6 +153,9 @@ class _BookSlotPageState extends State<BookSlotPage> {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as BookArguments;
+    widget.otherId = args.id;
+    fetchSlotsByDate(DateTime.now());
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -157,11 +167,12 @@ class _BookSlotPageState extends State<BookSlotPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CalendarTimeline(
-                initialDate: DateTime.now(),
+                initialDate: _selectedDate,
                 firstDate: DateTime.now(),
                 lastDate: DateTime.now().add(const Duration(days: 365)),
                 onDateSelected: (date) {
                   print('Selected date: $date');
+                  _selectedDate = date;
                   fetchSlotsByDate(date);
                 },
                 activeBackgroundDayColor: MyColors.primaryColor,
@@ -399,7 +410,9 @@ class _BookSlotPageState extends State<BookSlotPage> {
   }
 
   void fetchSlotsByDate(DateTime dateTime) async {
-    _future = _apiService.getSlotsByProfId(widget.otherId, widget.token,
-        DateFormat('dd-MM-yyyy').format(DateTime.now()));
+    setState(() {
+      _future = _apiService.getSlotsByProfId(widget.otherId, widget.token,
+          DateFormat('dd-MM-yyyy').format(dateTime));
+    });
   }
 }
