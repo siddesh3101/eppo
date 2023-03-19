@@ -6,6 +6,7 @@ import 'package:eppo/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:intl/intl.dart';
 
 import '../theme/style.dart';
@@ -278,14 +279,31 @@ class _BookSlotPageState extends State<BookSlotPage> {
                       height: 50,
                       child: ElevatedButton(
                         onPressed: () async {
-                          final res = await _apiService.bookSlot(
-                              widget.token,
-                              widget.otherId,
-                              DateFormat('dd-MM-yyyy').format(DateTime.now()),
-                              [_selectedSlot!.start, _selectedSlot!.end]);
-                          if (res) {
-                            Navigator.pop(context);
-                          }
+                          final res =
+                              await _apiService.getOrder(widget.otherId);
+                          Razorpay _razorPay = Razorpay();
+                          var options = {
+                            'key': 'rzp_test_NTCtiBhSzJJA1c',
+                            'amount': res.amount,
+                            'name': 'TimeTap Ltd.',
+                            'description': 'Appointment Booking',
+                            'retry': {'enabled': true, 'max_count': 1},
+                            'send_sms_hash': true,
+                            'prefill': {
+                              'contact': '8888888888',
+                              'email': 'test@razorpay.com'
+                            },
+                            'external': {
+                              'wallets': ['paytm']
+                            }
+                          };
+                          _razorPay.on(Razorpay.EVENT_PAYMENT_ERROR,
+                              handlePaymentErrorResponse);
+                          _razorPay.on(Razorpay.EVENT_PAYMENT_SUCCESS,
+                              handlePaymentSuccessResponse);
+                          _razorPay.on(Razorpay.EVENT_EXTERNAL_WALLET,
+                              handleExternalWalletSelected);
+                          _razorPay.open(options);
                         },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
@@ -302,6 +320,61 @@ class _BookSlotPageState extends State<BookSlotPage> {
             ],
           ),
         ));
+  }
+
+  void handlePaymentErrorResponse(PaymentFailureResponse response) {
+    /*
+    * PaymentFailureResponse contains three values:
+    * 1. Error Code
+    * 2. Error Description
+    * 3. Metadata
+    * */
+    showAlertDialog(context, "Payment Failed",
+        "Code: ${response.code}\nDescription: ${response.message}\nMetadata:${response.error.toString()}");
+  }
+
+  void handlePaymentSuccessResponse(PaymentSuccessResponse response) async {
+    final res = await _apiService.bookSlot(
+        widget.token,
+        widget.otherId,
+        DateFormat('dd-MM-yyyy').format(DateTime.now()),
+        [_selectedSlot!.start, _selectedSlot!.end]);
+    // ignore: use_build_context_synchronously
+    showAlertDialog(context, "Payment Successful. Booking is completed..",
+        "Payment ID: ${response.paymentId}", onOk: () {
+      Navigator.pushNamed(context, '/');
+    });
+  }
+
+  void handleExternalWalletSelected(ExternalWalletResponse response) {
+    showAlertDialog(
+        context, "External Wallet Selected", "${response.walletName}");
+  }
+
+  void showAlertDialog(BuildContext context, String title, String message,
+      {Function? onOk}) {
+    // set up the buttons
+    Widget continueButton = ElevatedButton(
+      child: const Text("Continue"),
+      onPressed: () {
+        onOk?.call();
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(title),
+      content: Text(message),
+      actions: [
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   Row bookingLegend(String text, Color color, Color borderColor) {

@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 // import '../models/chat_room.dart';
 import 'package:eppo/models/get_booked_slot_response.dart';
 import 'package:eppo/models/get_slots_response.dart';
+import 'package:eppo/models/order.dart';
 import 'package:intl/intl.dart';
 
 import '../models/chat_room.dart';
@@ -106,5 +107,12 @@ class ApiService {
     final data = {"id": userId, "token": token};
     Response response = await _dio.post('/user/pushToken', data: data);
     print(response.data);
+  }
+
+  Future<Order> getOrder(String professionalId) async {
+    var data = {"pid": professionalId};
+    Response response = await _dio.post('/user/getprice', data: data);
+    print(response.data);
+    return Order.fromJson(response.data);
   }
 }
