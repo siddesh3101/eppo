@@ -1,12 +1,15 @@
+import 'package:eppo/pages/person.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import "package:latlong2/latlong.dart" as latLng;
 
 import '../theme/colors.dart';
+import '../theme/style.dart';
 
 class SliverDoctorDetail extends StatelessWidget {
-  const SliverDoctorDetail({Key? key}) : super(key: key);
+  const SliverDoctorDetail({Key? key, this.details}) : super(key: key);
+  final Map<dynamic, dynamic>? details;
 
   @override
   Widget build(BuildContext context) {
@@ -15,18 +18,18 @@ class SliverDoctorDetail extends StatelessWidget {
         slivers: [
           SliverAppBar(
             pinned: true,
-            title: Text('Detail Doctor'),
+            title: Text('Business Details'),
             backgroundColor: Color(MyColors.primary),
             expandedHeight: 200,
             flexibleSpace: FlexibleSpaceBar(
               background: Image(
-                image: AssetImage('assets/hospital.jpeg'),
+                image: AssetImage(details!['img']),
                 fit: BoxFit.cover,
               ),
             ),
           ),
           SliverToBoxAdapter(
-            child: DetailBody(),
+            child: DetailBody(details: details),
           )
         ],
       ),
@@ -37,7 +40,9 @@ class SliverDoctorDetail extends StatelessWidget {
 class DetailBody extends StatelessWidget {
   const DetailBody({
     Key? key,
+    this.details,
   }) : super(key: key);
+  final Map<dynamic, dynamic>? details;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +52,10 @@ class DetailBody extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          DetailDoctorCard(),
+          DetailDoctorCard(
+              name: details!['doctorName'],
+              desc: details!['doctorTitle'],
+              asset: "assets/salon.png"),
           SizedBox(
             height: 15,
           ),
@@ -56,14 +64,14 @@ class DetailBody extends StatelessWidget {
             height: 30,
           ),
           Text(
-            'About Doctor',
-            // style: kTitleStyle,
+            'About the store',
+            style: kTitleStyle,
           ),
           SizedBox(
-            height: 15,
+            height: 10,
           ),
           Text(
-            'Dr. Joshua Simorangkir is a specialist in internal medicine who specialzed blah blah.',
+            'Stylo Salon is open for appointments, in order to book new appointments check below options.',
             style: TextStyle(
               color: Color(MyColors.purple01),
               fontWeight: FontWeight.w500,
@@ -75,7 +83,7 @@ class DetailBody extends StatelessWidget {
           ),
           Text(
             'Location',
-            // style: kTitleStyle,
+            style: kTitleStyle,
           ),
           SizedBox(
             height: 25,
@@ -111,28 +119,30 @@ class DoctorLocation extends StatefulWidget {
 class _DoctorLocationState extends State<DoctorLocation> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return const SizedBox(
       width: double.infinity,
       height: 200,
-      // child: PeopleWalkingOnLine(),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: GoogleMap(
-          initialCameraPosition: CameraPosition(
-            target: LatLng(18.9682, 72.8313),
-            zoom: 12,
-          ),
-          markers: {
-            Marker(
-              markerId: MarkerId('marker_id'),
-              position: LatLng(18.9682, 72.8313),
-              infoWindow: InfoWindow(
-                title: 'Sabo Sidik',
-                snippet: 'Hospital',
-              ),
-            ),
-          },
-        ),
+      child: PeopleWalkingOnLine(
+        percentage1: 10,
+        percentage2: 60,
+        // child: ClipRRect(
+        //   borderRadius: BorderRadius.circular(20),
+        //   child: GoogleMap(
+        //     initialCameraPosition: CameraPosition(
+        //       target: LatLng(18.9682, 72.8313),
+        //       zoom: 12,
+        //     ),
+        //     markers: {
+        //       Marker(
+        //         markerId: MarkerId('marker_id'),
+        //         position: LatLng(18.9682, 72.8313),
+        //         infoWindow: InfoWindow(
+        //           title: 'Sabo Sidik',
+        //           snippet: 'Hospital',
+        //         ),
+        //       ),
+        //     },
+        //   ),
         // child: FlutterMap(
         //   options: MapOptions(
         //     center: latLng.LatLng(19.2952, 72.8544),
@@ -160,7 +170,7 @@ class DoctorInfo extends StatelessWidget {
     return Row(
       children: const [
         NumberCard(
-          label: 'Patients',
+          label: 'Visitors',
           value: '100+',
         ),
         SizedBox(width: 15),
@@ -246,7 +256,13 @@ class NumberCard extends StatelessWidget {
 class DetailDoctorCard extends StatelessWidget {
   const DetailDoctorCard({
     Key? key,
+    this.name,
+    this.desc,
+    this.asset,
   }) : super(key: key);
+  final String? name;
+  final String? desc;
+  final String? asset;
 
   @override
   Widget build(BuildContext context) {
@@ -264,16 +280,16 @@ class DetailDoctorCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Dr. Josua Simorangkir',
+                      name!,
                       style: TextStyle(
                           color: Color(MyColors.header01),
                           fontWeight: FontWeight.w700),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(
-                      'Heart Specialist',
+                      desc!,
                       style: TextStyle(
                         color: Color(MyColors.grey02),
                         fontWeight: FontWeight.w500,
@@ -283,8 +299,8 @@ class DetailDoctorCard extends StatelessWidget {
                 ),
               ),
               Image(
-                image: AssetImage('assets/doctor01.jpeg'),
-                width: 100,
+                image: AssetImage(asset!),
+                width: 60,
               )
             ],
           ),
