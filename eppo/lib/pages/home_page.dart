@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:eppo/pages/doctor_screen.dart';
+import 'package:eppo/pages/dr_screen.dart';
 import 'package:eppo/pages/sliver_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -33,14 +34,17 @@ List<Map> doctors = [
 
 class HomeTab extends StatelessWidget {
   final void Function() onPressedScheduleCard;
+  final List<Doctor>? user;
 
   const HomeTab({
     Key? key,
     required this.onPressedScheduleCard,
+    this.user,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController edit = TextEditingController();
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Container(
@@ -54,7 +58,11 @@ class HomeTab extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            SearchInput(hint: "Search for a service"),
+            SearchInput(
+              hint: "Search for a service",
+              onTap: () {},
+              text: edit,
+            ),
             SizedBox(
               height: 20,
             ),
@@ -152,7 +160,7 @@ class HomeTab extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            CategoryIcons(),
+            CategoryIcons(user: user),
             SizedBox(
               height: 20,
             ),
@@ -203,7 +211,7 @@ class HomeTab extends StatelessWidget {
                   Navigator.push(
                     context,
                     PageTransition(
-                      child: SliverDoctorDetail(details: doctor),
+                      child: SliverDoctorDetail(details: doctor, decide: true),
                       type: PageTransitionType.fade,
                     ),
                   );
@@ -397,7 +405,9 @@ List<Map> categories = [
 class CategoryIcons extends StatelessWidget {
   const CategoryIcons({
     Key? key,
+    this.user,
   }) : super(key: key);
+  final List<Doctor>? user;
 
   @override
   Widget build(BuildContext context) {
@@ -408,6 +418,8 @@ class CategoryIcons extends StatelessWidget {
           CategoryIcon(
             image: category['icon'],
             text: category['text'],
+            user: user,
+            decide: true,
           ),
       ],
     );
@@ -423,7 +435,7 @@ class ScheduleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Color(MyColors.bg01),
+        color: Color(MyColors.bg),
         borderRadius: BorderRadius.circular(10),
       ),
       width: double.infinity,
@@ -433,22 +445,22 @@ class ScheduleCard extends StatelessWidget {
         children: const [
           Icon(
             Icons.calendar_today,
-            color: Colors.white,
+            color: Colors.black,
             size: 15,
           ),
           SizedBox(
             width: 5,
           ),
           Text(
-            'Mon, July 29',
-            style: TextStyle(color: Colors.white),
+            'Mon, Mar 19',
+            style: TextStyle(color: Colors.black),
           ),
           SizedBox(
             width: 20,
           ),
           Icon(
             Icons.access_alarm,
-            color: Colors.white,
+            color: Colors.black,
             size: 17,
           ),
           SizedBox(
@@ -456,8 +468,8 @@ class ScheduleCard extends StatelessWidget {
           ),
           Flexible(
             child: Text(
-              '11:00 ~ 12:10',
-              style: TextStyle(color: Colors.white),
+              '12:00 ~ 12:30',
+              style: TextStyle(color: Colors.black),
             ),
           ),
         ],
@@ -473,17 +485,23 @@ class CategoryIcon extends StatelessWidget {
   CategoryIcon({
     required this.image,
     required this.text,
+    this.user,
+    this.decide,
   });
+  final List<Doctor>? user;
+  final bool? decide;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       splashColor: Color(MyColors.bg01),
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => DoctorScreen(),
-        ));
-      },
+      onTap: decide!
+          ? () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => DoctorScreen(user: user),
+              ));
+            }
+          : () {},
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Column(
@@ -522,8 +540,12 @@ class SearchInput extends StatelessWidget {
   const SearchInput({
     Key? key,
     required this.hint,
+    required this.onTap,
+    required this.text,
   }) : super(key: key);
   final String hint;
+  final VoidCallback onTap;
+  final TextEditingController text;
 
   @override
   Widget build(BuildContext context) {
@@ -549,6 +571,7 @@ class SearchInput extends StatelessWidget {
           ),
           Expanded(
             child: TextField(
+              onTap: onTap,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: hint,

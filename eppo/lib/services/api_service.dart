@@ -5,6 +5,11 @@ import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 
 // import '../models/chat_room.dart';
+import 'package:eppo/models/get_booked_slot_response.dart';
+import 'package:eppo/models/get_slots_response.dart';
+import 'package:intl/intl.dart';
+
+import '../models/chat_room.dart';
 
 class ApiService {
   late final _apiLink;
@@ -33,6 +38,12 @@ class ApiService {
 
   //   return ChatRoom.fromJson(response.data);
   // }
+  Future<ChatRoom> getChatMessages(String userId, String otherId) async {
+    Response response = await _dio.get('/chat/room?uid=$userId&oid=$otherId');
+    print(response.data);
+
+    return ChatRoom.fromJson(response.data);
+  }
 
   Future<void> sendMessage(String userId, String otherId, String text) async {
     final data = {"id": userId, "oid": otherId, "message": text};
@@ -57,5 +68,37 @@ class ApiService {
         }));
     print(response.data);
     return response.data;
+  }
+
+  Future<GetSlotResponse> getSlotsByProfId(
+      String professionalId, String token, String date) async {
+    final data = {"professionalId": professionalId, "date": date};
+    Response response = await _dio.post(
+        '/user/get-slot-by-professional-id-final',
+        data: data,
+        options: Options(headers: Map.fromEntries([MapEntry("token", token)])));
+    print(response.data);
+    return GetSlotResponse.fromJson(response.data);
+  }
+
+  Future<GetBookedSlotResponse> getBookedSlotByDayAndProfId(
+      String token, String professionalId, String date) async {
+    final data = {"professionalId": professionalId, "date": date};
+    Response response = await _dio.post(
+        '/user/get-booked-appointments-by-professional-id',
+        data: data,
+        options: Options(headers: Map.fromEntries([MapEntry("token", token)])));
+    print(response.data);
+    return GetBookedSlotResponse.fromJson(response.data);
+  }
+
+  Future<bool> bookSlot(String token, String professionalId, String date,
+      List<String> time) async {
+    final data = {"professionalId": professionalId, "date": date, "time": time};
+    Response response = await _dio.post('/user/book-appointment-final',
+        data: data,
+        options: Options(headers: Map.fromEntries([MapEntry("token", token)])));
+    print(response.data);
+    return response.data["success"];
   }
 }

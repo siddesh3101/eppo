@@ -1,14 +1,20 @@
 import 'package:booking_calendar/booking_calendar.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:eppo/constants/colors.dart';
+import 'package:eppo/models/get_slots_response.dart';
+import 'package:eppo/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:intl/intl.dart';
 
 import '../theme/style.dart';
 
 class BookSlotPage extends StatefulWidget {
-  const BookSlotPage({super.key});
+  BookSlotPage({super.key});
+  String token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MTU3Yjk5MzAzYWM0OGZiNjljZDEyZSIsImlhdCI6MTY3OTE3NjYzMiwiZXhwIjoxNjc5MjYzMDMyfQ._PwHChUhLHZzUWEfTPQ-ovut0p44W7J0OqGcTM8GX34";
+  String otherId = "6415da02cc26535ffc32da5c";
 
   @override
   State<BookSlotPage> createState() => _BookSlotPageState();
@@ -36,9 +42,21 @@ class TimeSlot {
 }
 
 class _BookSlotPageState extends State<BookSlotPage> {
+  late ApiService _apiService;
   int _selectedIndex = -1;
+  Datum? _selectedSlot = null;
   String _selectedOption = 'Mins';
   List<String> _options = ['Mins', 'Hours'];
+  late Future<GetSlotResponse> _future;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _apiService = ApiService();
+    fetchSlotsByDate(DateTime.now());
+  }
+
   Widget notifyMe() {
     return AlertDialog(
       title: (const Center(child: Text("Notification Reminder"))),
@@ -172,49 +190,69 @@ class _BookSlotPageState extends State<BookSlotPage> {
               const SizedBox(
                 height: 20,
               ),
-              GridView.builder(
-                  itemCount: TimeSlot.slots.length,
-                  shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
-                      childAspectRatio: 2.5),
-                  itemBuilder: ((context, index) => GestureDetector(
-                        onTap: () {
-                          if (TimeSlot.slots[index].isBooked) return;
-                          setState(() {
-                            if (_selectedIndex == index)
-                              _selectedIndex = -1;
-                            else
-                              _selectedIndex = index;
-                          });
-                        },
-                        child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                  width: 1.5,
-                                  color: TimeSlot.slots[index].isBooked
-                                      ? MyColors.gray2
-                                      : MyColors.primaryColor),
-                              color: TimeSlot.slots[index].isBooked
-                                  ? MyColors.gray2
-                                  : index == _selectedIndex
-                                      ? MyColors.primaryColor
-                                      : MyColors.white,
-                            ),
-                            child: Center(
-                              child: Text(
-                                TimeSlot.slots[index].time,
-                                style: TextStyle(
-                                    color: (TimeSlot.slots[index].isBooked ||
-                                            index == _selectedIndex)
-                                        ? MyColors.white
-                                        : MyColors.primaryColor),
-                              ),
-                            )),
-                      ))),
+              Expanded(
+                child: FutureBuilder<GetSlotResponse>(
+                    future: _future,
+                    builder: (context, snapshot) {
+                      return snapshot.hasData
+                          ? GridView.builder(
+                              itemCount: snapshot.data!.data.length,
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3,
+                                      mainAxisSpacing: 10,
+                                      crossAxisSpacing: 10,
+                                      childAspectRatio: 2.5),
+                              itemBuilder: ((context, index) => GestureDetector(
+                                    onTap: () {
+                                      if (snapshot!.data!.data[index].isBooked)
+                                        return;
+                                      setState(() {
+                                        if (_selectedIndex == index) {
+                                          _selectedIndex = -1;
+                                          _selectedSlot = null;
+                                        } else {
+                                          _selectedIndex = index;
+                                          _selectedSlot =
+                                              snapshot.data!.data[index];
+                                        }
+                                      });
+                                    },
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          border: Border.all(
+                                              width: 1.5,
+                                              color: snapshot!.data!.data[index]
+                                                      .isBooked
+                                                  ? MyColors.gray2
+                                                  : MyColors.primaryColor),
+                                          color: snapshot!
+                                                  .data!.data[index].isBooked
+                                              ? MyColors.gray2
+                                              : index == _selectedIndex
+                                                  ? MyColors.primaryColor
+                                                  : MyColors.white,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            '${snapshot.data!.data[index].start} - ${snapshot.data!.data[index].end}',
+                                            style: TextStyle(
+                                                color: (snapshot!
+                                                            .data!
+                                                            .data[index]
+                                                            .isBooked ||
+                                                        index == _selectedIndex)
+                                                    ? MyColors.white
+                                                    : MyColors.primaryColor),
+                                          ),
+                                        )),
+                                  )))
+                          : Container();
+                    }),
+              ),
               const SizedBox(
                 height: 20,
               ),
@@ -239,7 +277,16 @@ class _BookSlotPageState extends State<BookSlotPage> {
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          final res = await _apiService.bookSlot(
+                              widget.token,
+                              widget.otherId,
+                              DateFormat('dd-MM-yyyy').format(DateTime.now()),
+                              [_selectedSlot!.start, _selectedSlot!.end]);
+                          if (res) {
+                            Navigator.pop(context);
+                          }
+                        },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
                               MyColors.primaryColor.withOpacity(0.8)),
@@ -273,5 +320,10 @@ class _BookSlotPageState extends State<BookSlotPage> {
       ),
       Text(text)
     ]);
+  }
+
+  void fetchSlotsByDate(DateTime dateTime) async {
+    _future = _apiService.getSlotsByProfId(widget.otherId, widget.token,
+        DateFormat('dd-MM-yyyy').format(DateTime.now()));
   }
 }

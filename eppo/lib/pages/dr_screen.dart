@@ -18,68 +18,6 @@ class Doctor {
   });
 }
 
-class MyApp extends StatelessWidget {
-  final String doctorsJson = '''
-  {
-    "doctors": [
-      {
-        "name": "Dr. John Smith",
-        "speciality": "Cardiology",
-        "location": "New York",
-        "rating": 4.8,
-        "image": "assets/man.png"
-      },
-      {
-        "name": "Dr. Jane Doe",
-        "speciality": "Pediatrics",
-        "location": "Los Angeles",
-        "rating": 4.5,
-        "image": "assets/man.png"
-      },
-      {
-        "name": "Dr. Michael Lee",
-        "speciality": "Oncology",
-        "location": "Chicago",
-        "rating": 4.9,
-        "image": "assets/man.png"
-      },
-      {
-        "name": "Dr. Sarah Johnson",
-        "speciality": "Dermatology",
-        "location": "Houston",
-        "rating": 4.3,
-        "image": "assets/man.png"
-      },
-      {
-        "name": "Dr. William Chen",
-        "speciality": "Neurology",
-        "location": "San Francisco",
-        "rating": 4.7,
-        "image": "assets/man.png"
-      }
-    ]
-  }
-  ''';
-
-  @override
-  Widget build(BuildContext context) {
-    final List<Doctor> allDoctors = (jsonDecode(doctorsJson)['doctors'] as List)
-        .map((json) => Doctor(
-              name: json['name'],
-              speciality: json['speciality'],
-              location: json['location'],
-              rating: json['rating'],
-              image: json['image'],
-            ))
-        .toList();
-
-    return MaterialApp(
-      title: 'Doctor List',
-      home: DoctorListScreen(doctors: allDoctors),
-    );
-  }
-}
-
 class DoctorListScreen extends StatefulWidget {
   final List<Doctor> doctors;
 

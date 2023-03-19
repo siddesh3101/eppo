@@ -64,6 +64,7 @@ dependencies:
   flutter_advanced_segment: ^3.0.1
   tap_to_expand: ^0.6.1
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

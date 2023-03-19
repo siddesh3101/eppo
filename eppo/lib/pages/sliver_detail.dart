@@ -1,3 +1,4 @@
+import 'package:eppo/pages/dr_screen.dart';
 import 'package:eppo/pages/person.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -8,8 +9,11 @@ import '../theme/colors.dart';
 import '../theme/style.dart';
 
 class SliverDoctorDetail extends StatelessWidget {
-  const SliverDoctorDetail({Key? key, this.details}) : super(key: key);
+  const SliverDoctorDetail({Key? key, this.details, this.decide, this.doc})
+      : super(key: key);
   final Map<dynamic, dynamic>? details;
+  final bool? decide;
+  final Doctor? doc;
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +27,15 @@ class SliverDoctorDetail extends StatelessWidget {
             expandedHeight: 200,
             flexibleSpace: FlexibleSpaceBar(
               background: Image(
-                image: AssetImage(details!['img']),
+                image: decide!
+                    ? AssetImage(details!['img'])
+                    : AssetImage(doc!.image),
                 fit: BoxFit.cover,
               ),
             ),
           ),
           SliverToBoxAdapter(
-            child: DetailBody(details: details),
+            child: DetailBody(details: details, decide: decide, doc: doc),
           )
         ],
       ),
@@ -41,8 +47,12 @@ class DetailBody extends StatelessWidget {
   const DetailBody({
     Key? key,
     this.details,
+    this.decide,
+    this.doc,
   }) : super(key: key);
   final Map<dynamic, dynamic>? details;
+  final bool? decide;
+  final Doctor? doc;
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +63,8 @@ class DetailBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           DetailDoctorCard(
-              name: details!['doctorName'],
-              desc: details!['doctorTitle'],
+              name: decide! ? details!['doctorName'] : doc!.name,
+              desc: decide! ? details!['doctorTitle'] : doc!.speciality,
               asset: "assets/salon.png"),
           SizedBox(
             height: 15,
@@ -119,30 +129,31 @@ class DoctorLocation extends StatefulWidget {
 class _DoctorLocationState extends State<DoctorLocation> {
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-      width: double.infinity,
-      height: 200,
-      child: PeopleWalkingOnLine(
-        percentage1: 10,
-        percentage2: 60,
-        // child: ClipRRect(
-        //   borderRadius: BorderRadius.circular(20),
-        //   child: GoogleMap(
-        //     initialCameraPosition: CameraPosition(
-        //       target: LatLng(18.9682, 72.8313),
-        //       zoom: 12,
-        //     ),
-        //     markers: {
-        //       Marker(
-        //         markerId: MarkerId('marker_id'),
-        //         position: LatLng(18.9682, 72.8313),
-        //         infoWindow: InfoWindow(
-        //           title: 'Sabo Sidik',
-        //           snippet: 'Hospital',
-        //         ),
-        //       ),
-        //     },
-        //   ),
+    return SizedBox(
+        width: double.infinity,
+        height: 200,
+        // child: PeopleWalkingOnLine(
+        //   percentage1: 10,
+        //   percentage2: 60,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: GoogleMap(
+            initialCameraPosition: CameraPosition(
+              target: LatLng(18.9682, 72.8313),
+              zoom: 12,
+            ),
+            markers: {
+              Marker(
+                markerId: MarkerId('marker_id'),
+                position: LatLng(18.9682, 72.8313),
+                infoWindow: InfoWindow(
+                  title: 'Stylo Salon',
+                  snippet: 'Salon',
+                ),
+              ),
+            },
+          ),
+        )
         // child: FlutterMap(
         //   options: MapOptions(
         //     center: latLng.LatLng(19.2952, 72.8544),
@@ -155,8 +166,8 @@ class _DoctorLocationState extends State<DoctorLocation> {
         //     ),
         //   ],
         // ),
-      ),
-    );
+        // ),
+        );
   }
 }
 

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:eppo/constants/colors.dart';
 import 'package:eppo/pages/home_page.dart';
 import 'package:eppo/pages/profile_screen.dart';
@@ -7,6 +9,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/widgets.dart';
 
+import 'dr_screen.dart';
+
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
@@ -15,6 +19,47 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  final String doctorsJson = '''
+  {
+    "doctors": [
+      {
+        "name": "Dr. Masuda Khan",
+        "speciality": "Cardiology",
+        "location": "New York",
+        "rating": 4.8,
+        "image": "assets/Masuda_Khan.png"
+      },
+      {
+        "name": "Dr. Salina Zaman",
+        "speciality": "Cardiology",
+        "location": "Los Angeles",
+        "rating": 4.5,
+        "image": "assets/Salina_Zaman.png"
+      },
+      {
+        "name": "Dr. Johir Raihan",
+        "speciality": "Cardiologist",
+        "location": "Chicago",
+        "rating": 4.9,
+        "image": "assets/Johir_Raihan.png"
+      },
+      {
+        "name": "Dr. Kiran Shakia",
+        "speciality": "Dermatology",
+        "location": "Houston",
+        "rating": 4.3,
+        "image": "assets/kiran.png"
+      },
+      {
+        "name": "Dr. Serena Gome",
+        "speciality": "Neurology",
+        "location": "San Francisco",
+        "rating": 4.7,
+        "image": "assets/Serena_Gome.png"
+      }
+    ]
+  }
+  ''';
   // current index state
   int _currentIndex = 0;
 
@@ -28,6 +73,15 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Doctor> allDoctors = (jsonDecode(doctorsJson)['doctors'] as List)
+        .map((json) => Doctor(
+              name: json['name'],
+              speciality: json['speciality'],
+              location: json['location'],
+              rating: json['rating'],
+              image: json['image'],
+            ))
+        .toList();
     return Scaffold(
       backgroundColor: MyColors.gray3,
       body: PageView(
@@ -36,6 +90,7 @@ class _MainPageState extends State<MainPage> {
         children: [
           HomeTab(
             onPressedScheduleCard: () {},
+            user: allDoctors,
           ),
           Container(
             child: const Center(

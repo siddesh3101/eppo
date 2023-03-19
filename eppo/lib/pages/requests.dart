@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../theme/colors.dart';
+import '../theme/style.dart';
 
 class PendingAppointments extends StatefulWidget {
   const PendingAppointments({super.key});
@@ -14,6 +15,8 @@ class PendingAppointments extends StatefulWidget {
 }
 
 class _PendingAppointmentsState extends State<PendingAppointments> {
+  FilterStatus status = FilterStatus.Upcoming;
+  Alignment _alignment = Alignment.centerLeft;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -21,6 +24,77 @@ class _PendingAppointmentsState extends State<PendingAppointments> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: double.infinity,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Color(MyColors.bg),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        for (FilterStatus filterStatus in FilterStatus.values)
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (filterStatus == FilterStatus.Upcoming) {
+                                    status = FilterStatus.Upcoming;
+                                    _alignment = Alignment.centerLeft;
+                                  } else if (filterStatus ==
+                                      FilterStatus.Complete) {
+                                    status = FilterStatus.Complete;
+                                    _alignment = Alignment.center;
+                                  } else if (filterStatus ==
+                                      FilterStatus.Cancel) {
+                                    status = FilterStatus.Cancel;
+                                    _alignment = Alignment.centerRight;
+                                  }
+                                });
+                              },
+                              child: Center(
+                                child: Text(
+                                  filterStatus.name,
+                                  style: kFilterStyle,
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: AnimatedAlign(
+                    duration: Duration(milliseconds: 200),
+                    alignment: _alignment,
+                    child: Container(
+                      width: 100,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: Color(MyColors.primary),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Center(
+                        child: Text(
+                          status.name,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
             Expanded(
               child: FutureBuilder<Map<dynamic, dynamic>>(
                 future: AppointmentService().getPendingAppointments(),

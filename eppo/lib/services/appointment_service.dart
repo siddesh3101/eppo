@@ -73,4 +73,16 @@ class AppointmentService {
       return false;
     }
   }
+
+  Future<List<dynamic>> getTrending() async {
+    Response response = await _dio.get(
+      '/user/get-users',
+    );
+    if (response.statusCode == 200) {
+      print(response.data);
+      return response.data["data"];
+    } else {
+      return [];
+    }
+  }
 }
