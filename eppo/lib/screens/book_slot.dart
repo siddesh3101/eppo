@@ -15,7 +15,7 @@ class BookSlotPage extends StatefulWidget {
   BookSlotPage({super.key});
   String token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MTU3Yjk5MzAzYWM0OGZiNjljZDEyZSIsImlhdCI6MTY3OTE3NjYzMiwiZXhwIjoxNjc5MjYzMDMyfQ._PwHChUhLHZzUWEfTPQ-ovut0p44W7J0OqGcTM8GX34";
-  String otherId = "6415da02cc26535ffc32da5c";
+  String otherId = "64157b99303ac48fb69cd12e";
 
   @override
   State<BookSlotPage> createState() => _BookSlotPageState();
@@ -161,7 +161,8 @@ class _BookSlotPageState extends State<BookSlotPage> {
                 firstDate: DateTime.now(),
                 lastDate: DateTime.now().add(const Duration(days: 365)),
                 onDateSelected: (date) {
-                  // api call
+                  print('Selected date: $date');
+                  fetchSlotsByDate(date);
                 },
                 activeBackgroundDayColor: MyColors.primaryColor,
                 dayColor: MyColors.primaryColor,
@@ -284,7 +285,7 @@ class _BookSlotPageState extends State<BookSlotPage> {
                           Razorpay _razorPay = Razorpay();
                           var options = {
                             'key': 'rzp_test_NTCtiBhSzJJA1c',
-                            'amount': res.amount,
+                            'amount': res.amount * 100,
                             'name': 'TimeTap Ltd.',
                             'description': 'Appointment Booking',
                             'retry': {'enabled': true, 'max_count': 1},
@@ -340,10 +341,12 @@ class _BookSlotPageState extends State<BookSlotPage> {
         DateFormat('dd-MM-yyyy').format(DateTime.now()),
         [_selectedSlot!.start, _selectedSlot!.end]);
     // ignore: use_build_context_synchronously
-    showAlertDialog(context, "Payment Successful. Booking is completed..",
-        "Payment ID: ${response.paymentId}", onOk: () {
-      Navigator.pushNamed(context, '/');
-    });
+    if (res) {
+      showAlertDialog(context, "Payment Successful. Booking is completed..",
+          "Payment ID: ${response.paymentId}", onOk: () {
+        Navigator.pushNamed(context, '/');
+      });
+    }
   }
 
   void handleExternalWalletSelected(ExternalWalletResponse response) {
