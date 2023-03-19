@@ -101,4 +101,10 @@ class ApiService {
     print(response.data);
     return response.data["success"];
   }
+
+  Future<void> sendFcmToken(String token, String userId) async {
+    final data = {"id": userId, "token": token};
+    Response response = await _dio.post('/user/pushToken', data: data);
+    print(response.data);
+  }
 }

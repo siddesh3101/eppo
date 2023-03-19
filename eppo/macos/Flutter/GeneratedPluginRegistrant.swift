@@ -11,7 +11,7 @@ import flutter_local_notifications
 import geolocator_apple
 import location
 import maps_launcher
-import package_info_plus
+import package_info_plus_macos
 import url_launcher_macos
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {

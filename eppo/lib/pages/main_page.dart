@@ -5,11 +5,15 @@ import 'package:eppo/pages/home_page.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:eppo/pages/profile_screen.dart';
 import 'package:eppo/pages/schedule.dart';
+import 'package:eppo/services/api_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+import '../firebase_notification_provider.dart';
 
 import 'dr_screen.dart';
 
@@ -72,6 +76,10 @@ class _MainPageState extends State<MainPage> {
     super.initState();
     initMessaging();
     _currentIndex = 0;
+    // NotificationListenerProvider().getMessage(context);
+
+    initMessaging();
+    sendPushToken();
   }
 
   void initMessaging() {
@@ -97,6 +105,14 @@ class _MainPageState extends State<MainPage> {
             notification.body, generalNotificationDetails);
       }
     });
+  }
+
+  sendPushToken() async {
+    final token = await FirebaseMessaging.instance.getToken();
+    if (token != null) {
+      await ApiService().sendFcmToken(token, '64157b99303ac48fb69cd12e');
+    } else
+      print('token is null');
   }
 
   @override
