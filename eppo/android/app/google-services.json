@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "961031264985",
+    "project_id": "eppo-927de",
+    "storage_bucket": "eppo-927de.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:961031264985:android:69d81335654e59856b7cc8",
+        "android_client_info": {
+          "package_name": "com.example.eppo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "961031264985-bjq7c2cmber1m0h8v6icuto4ibe52bi1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDg_xPc3KiMgSi2QIJ1OM2kbZUbgo4eqXQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "961031264985-bjq7c2cmber1m0h8v6icuto4ibe52bi1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

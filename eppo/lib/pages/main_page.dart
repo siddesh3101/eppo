@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:eppo/constants/colors.dart';
 import 'package:eppo/pages/home_page.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:eppo/pages/profile_screen.dart';
 import 'package:eppo/pages/schedule.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -68,7 +70,33 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
+    initMessaging();
     _currentIndex = 0;
+  }
+
+  void initMessaging() {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    FlutterLocalNotificationsPlugin fltNotification =
+        FlutterLocalNotificationsPlugin();
+    var androiInit = const AndroidInitializationSettings('@mipmap/ic_launcher');
+    var iosInit = const DarwinInitializationSettings();
+    var initSetting = InitializationSettings(android: androiInit);
+
+    fltNotification.initialize(initSetting);
+    var androidDetails =
+        const AndroidNotificationDetails("default", "channel name");
+    var iosDetails = const DarwinNotificationDetails();
+    var generalNotificationDetails =
+        NotificationDetails(android: androidDetails, iOS: iosDetails);
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+
+      if (notification != null && android != null) {
+        fltNotification.show(notification.hashCode, notification.title,
+            notification.body, generalNotificationDetails);
+      }
+    });
   }
 
   @override
