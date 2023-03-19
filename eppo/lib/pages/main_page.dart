@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:eppo/constants/colors.dart';
 import 'package:eppo/pages/home_page.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:eppo/pages/profile_screen.dart';
 import 'package:eppo/pages/schedule.dart';
 import 'package:eppo/services/api_service.dart';
@@ -73,10 +74,12 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
+    initMessaging();
     _currentIndex = 0;
     // NotificationListenerProvider().getMessage(context);
-    sendPushToken();
+
     initMessaging();
+    sendPushToken();
   }
 
   void initMessaging() {

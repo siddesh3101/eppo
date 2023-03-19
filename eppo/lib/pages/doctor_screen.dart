@@ -61,6 +61,7 @@ class _DoctorScreenState extends State<DoctorScreen> {
               ),
               SearchInput(
                 hint: "Search for a doctor",
+                color: 0xff56f3fe,
                 text: _searchController,
                 onTap: () async {
                   final query = await showSearch<String>(
