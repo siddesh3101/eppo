@@ -233,7 +233,7 @@ class AppointmentCardProfessional extends StatelessWidget {
                             height: 2,
                           ),
                           Text(
-                            'Saloon',
+                            'Salon',
                             style: TextStyle(color: Color(MyColors.text01)),
                           ),
                         ],
@@ -292,22 +292,35 @@ class AppointmentCardProfessional extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ChatPage(
-                                userId: '6415da02cc26535ffc32da5c',
-                                otherId: '64157b99303ac48fb69cd12e',
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChatPage(
+                                  userId: '6415da02cc26535ffc32da5c',
+                                  otherId: '64157b99303ac48fb69cd12e',
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                        child: Text('Chat'),
-                      ),
+                            );
+                          },
+                          child: Text(
+                            'Chat',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Color(MyColors.bg)),
+                          )),
                       ElevatedButton(
                         onPressed: _launchUrl,
-                        child: Text('Video Call'),
+                        child: Text(
+                          'Video Call',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Color(MyColors.bg)),
+                        ),
                       ),
                     ],
                   )

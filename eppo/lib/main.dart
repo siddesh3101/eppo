@@ -1,12 +1,7 @@
 import 'dart:io';
 
-import 'package:eppo/pages/prof_page.dart';
 import 'package:eppo/router/route.dart';
-import 'package:eppo/screens/create_business.dart';
-import 'package:eppo/screens/home_screen.dart';
-import 'package:eppo/screens/landing_page.dart';
 import 'package:eppo/theme/theme.dart';
-import 'package:eppo/widgets/trending_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,9 +12,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:overlay_support/overlay_support.dart';
-
-import 'pages/main_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -71,7 +63,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.theme,
-      initialRoute: '/professional',
+      initialRoute: '/',
       routes: routes,
     );
   }

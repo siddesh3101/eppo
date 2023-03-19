@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:eppo/constants/colors.dart';
+import 'package:eppo/pages/chat_page.dart';
 import 'package:eppo/pages/home_page.dart';
 import 'package:eppo/pages/on_appointment.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -167,9 +168,17 @@ class _MainPageState extends State<MainPage> {
         currentIndex: _currentIndex,
         onTap: (int index) {
           setState(() {
-            _currentIndex = index;
-            _pageController
-                .jumpTo(_currentIndex * MediaQuery.of(context).size.width);
+            if (index == 1) {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ChatPage(
+                        userId: '64157b99303ac48fb69cd12e',
+                        otherId: '6415da02cc26535ffc32da5c',
+                      )));
+            } else {
+              _currentIndex = index;
+              _pageController
+                  .jumpTo(_currentIndex * MediaQuery.of(context).size.width);
+            }
           });
         },
         type: BottomNavigationBarType.fixed,
@@ -180,8 +189,8 @@ class _MainPageState extends State<MainPage> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+            icon: Icon(Icons.message_outlined),
+            label: 'Chat',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month),

@@ -27,7 +27,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   setUpTimedFetch() {
-    Timer.periodic(Duration(milliseconds: 1000), (timer) {
+    Timer.periodic(Duration(milliseconds: 2000), (timer) {
       setState(() {
         _future =
             _chatRoomService.getChatMessages(widget.userId, widget.otherId);
@@ -117,6 +117,7 @@ class _ChatPageState extends State<ChatPage> {
                           ),
                           child: IconButton(
                             onPressed: () {
+                              if (_controller.text.isEmpty) return;
                               print('Send');
                               _chatRoomService.sendMessage(widget.userId,
                                   widget.otherId, _controller.text);

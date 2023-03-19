@@ -31,37 +31,47 @@ class _ProfPageState extends State<ProfPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyColors.gray3,
-      body: PageView(
-        controller: _pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: [
-          ProfTab(
-            onPressedScheduleCard: () {},
-          ),
-          PendingAppointments(),
-          Container(
-            child: Center(
-              child: InkWell(
-                  onTap: () async {
-                    var released = await AppointmentService().release();
-                    if (released) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Appointment Released'),
-                      ));
-                    }
-                  },
-                  child: Text(
-                    'Release Appointment',
-                    style: TextStyle(color: Colors.blueAccent),
-                  )),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 40),
+        child: PageView(
+          controller: _pageController,
+          physics: const NeverScrollableScrollPhysics(),
+          children: [
+            ProfTab(
+              onPressedScheduleCard: () {},
             ),
-          ),
-        ],
-        onPageChanged: (idx) {
-          setState(() {
-            _currentIndex = idx;
-          });
-        },
+            PendingAppointments(),
+            Container(
+              child: Center(
+                child: InkWell(
+                    onTap: () async {
+                      var released = await AppointmentService().release();
+                      if (released) {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text('Appointment Released'),
+                        ));
+                      }
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.blueAccent),
+                          borderRadius: BorderRadius.circular(10)),
+                      padding: const EdgeInsets.all(20),
+                      child: Text(
+                        'Release Appointment',
+                        style: TextStyle(color: Colors.blueAccent),
+                      ),
+                    )),
+              ),
+            ),
+          ],
+          onPageChanged: (idx) {
+            setState(() {
+              _currentIndex = idx;
+            });
+          },
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: MyColors.white,

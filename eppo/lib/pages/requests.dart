@@ -138,7 +138,7 @@ class _PendingAppointmentsState extends State<PendingAppointments> {
                                               height: 5,
                                             ),
                                             Text(
-                                              "Hello",
+                                              "${snapshot.data!["userInfo"][index]["email"]}",
                                               style: TextStyle(
                                                 color: Color(MyColors.grey02),
                                                 fontSize: 12,

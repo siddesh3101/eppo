@@ -616,10 +616,32 @@ class UserIntro extends StatelessWidget {
             ),
           ],
         ),
-        const CircleAvatar(
-          backgroundImage: NetworkImage(
-              'https://instagram.fbom61-1.fna.fbcdn.net/v/t51.2885-19/297723103_131991389535733_3394524039300739566_n.jpg?stp=dst-jpg_s320x320&_nc_ht=instagram.fbom61-1.fna.fbcdn.net&_nc_cat=101&_nc_ohc=IO02ekRDY9oAX_6JkOo&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfCuMcGpvHriOC-t0GrTqybTK955SQZ30LnIa6z7N-AB_A&oe=64191CB9&_nc_sid=8fd12b'),
-        )
+        Row(children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed('/professional');
+            },
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Color(0xffF5F3FE),
+                borderRadius: BorderRadius.all(Radius.circular(50)),
+              ),
+              child: Icon(
+                Icons.notifications,
+                color: Color(MyColors.primary),
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          const CircleAvatar(
+            backgroundImage: NetworkImage(
+                'https://instagram.fbom61-1.fna.fbcdn.net/v/t51.2885-19/297723103_131991389535733_3394524039300739566_n.jpg?stp=dst-jpg_s320x320&_nc_ht=instagram.fbom61-1.fna.fbcdn.net&_nc_cat=101&_nc_ohc=IO02ekRDY9oAX_6JkOo&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfCuMcGpvHriOC-t0GrTqybTK955SQZ30LnIa6z7N-AB_A&oe=64191CB9&_nc_sid=8fd12b'),
+          ),
+        ])
       ],
     );
   }
