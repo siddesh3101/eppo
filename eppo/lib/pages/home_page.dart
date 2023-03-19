@@ -16,18 +16,18 @@ List<Map> doctors = [
     'doctorTitle': 'Saloon'
   },
   {
-    'img': 'assets/doctor03.jpeg',
-    'doctorName': 'Dr. Rosa Williamson',
-    'doctorTitle': 'Skin Specialist'
+    'img': 'assets/lawyer.jpeg',
+    'doctorName': 'Rk Gupta',
+    'doctorTitle': 'Lawyer'
   },
   {
-    'img': 'assets/doctor02.png',
-    'doctorName': 'Dr. Gardner Pearson',
-    'doctorTitle': 'Heart Specialist'
+    'img': 'assets/councl.jpeg',
+    'doctorName': 'Himani Deshpande',
+    'doctorTitle': 'Counselor'
   },
   {
-    'img': 'assets/doctor03.jpeg',
-    'doctorName': 'Dr. Rosa Williamson',
+    'img': 'assets/Masuda_Khan.png',
+    'doctorName': 'Dr. Masuda Khan',
     'doctorTitle': 'Skin Specialist'
   }
 ];
@@ -542,17 +542,19 @@ class SearchInput extends StatelessWidget {
     required this.hint,
     required this.onTap,
     required this.text,
+    this.color = 0xfff5f3fe,
   }) : super(key: key);
   final String hint;
   final VoidCallback onTap;
   final TextEditingController text;
+  final int? color;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Color(MyColors.bg),
+        color: Color(color!),
         borderRadius: BorderRadius.circular(5),
       ),
       padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
