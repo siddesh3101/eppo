@@ -1,10 +1,15 @@
 import 'package:eppo/constants/colors.dart';
 import 'package:eppo/pages/home_page.dart';
 import 'package:eppo/pages/schedule.dart';
+import 'package:eppo/services/api_service.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+import '../firebase_notification_provider.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -23,6 +28,42 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     _currentIndex = 0;
+    // NotificationListenerProvider().getMessage(context);
+    sendPushToken();
+    initMessaging();
+  }
+
+  void initMessaging() {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    FlutterLocalNotificationsPlugin fltNotification =
+        FlutterLocalNotificationsPlugin();
+    var androiInit = const AndroidInitializationSettings('@mipmap/ic_launcher');
+    var iosInit = const DarwinInitializationSettings();
+    var initSetting = InitializationSettings(android: androiInit);
+
+    fltNotification.initialize(initSetting);
+    var androidDetails =
+        const AndroidNotificationDetails("default", "channel name");
+    var iosDetails = const DarwinNotificationDetails();
+    var generalNotificationDetails =
+        NotificationDetails(android: androidDetails, iOS: iosDetails);
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+
+      if (notification != null && android != null) {
+        fltNotification.show(notification.hashCode, notification.title,
+            notification.body, generalNotificationDetails);
+      }
+    });
+  }
+
+  sendPushToken() async {
+    final token = await FirebaseMessaging.instance.getToken();
+    if (token != null) {
+      await ApiService().sendFcmToken(token, '64157b99303ac48fb69cd12e');
+    } else
+      print('token is null');
   }
 
   @override

@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "415434136930",
+    "project_id": "reflactions",
+    "storage_bucket": "reflactions.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:415434136930:android:31b0d9ecc12ef90b7ca03b",
+        "android_client_info": {
+          "package_name": "com.example.eppo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "415434136930-r6ecmal31p16pbagahseepvum64950en.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYEanpEGDYT3z92Lop800B4BjCDoq-zYE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "415434136930-gvdi1hrbs7sp058uock5snnisb5ukbo9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:415434136930:android:ff4fb307579def6c7ca03b",
+        "android_client_info": {
+          "package_name": "com.omkarcodes.hackathonstarter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "415434136930-r6ecmal31p16pbagahseepvum64950en.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYEanpEGDYT3z92Lop800B4BjCDoq-zYE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "415434136930-gvdi1hrbs7sp058uock5snnisb5ukbo9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
