@@ -85,4 +85,16 @@ class AppointmentService {
       return [];
     }
   }
+
+  Future<bool> release() async {
+    Response response = await _dio.get(
+      '/user/approved',
+    );
+    if (response.statusCode == 200) {
+      print(response.data);
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

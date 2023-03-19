@@ -471,7 +471,7 @@ class ScheduleCard extends StatelessWidget {
           ),
           Flexible(
             child: Text(
-              '12:00 ~ 12:30',
+              '13:00 ~ 13:30',
               style: TextStyle(color: Colors.black),
             ),
           ),
